@@ -1,0 +1,14 @@
+{
+  "links": [
+    {
+      "name": "Shop at Shopee",
+      "url": "https://shopee.example.com/",
+      "logo": "https://raw.githubusercontent.com/bigboxthailand/cryptoclock/main/shopee.png"
+    },
+    {
+      "name": "Shop at Lazada",
+      "url": "https://lazada.example.com/",
+      "logo": "https://raw.githubusercontent.com/bigboxthailand/cryptoclock/main/lazada.png"
+    }
+  ]
+}
