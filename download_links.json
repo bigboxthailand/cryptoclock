@@ -2,12 +2,12 @@
   "links": [
     {
       "name": "Shop at Shopee",
-      "url": "https://shopee.example.com/",
+      "url": "https://shopee.co.th/product/172667169/24321553160/",
       "logo": "https://raw.githubusercontent.com/bigboxthailand/cryptoclock/main/shopee.png"
     },
     {
       "name": "Shop at Lazada",
-      "url": "https://lazada.example.com/",
+      "url": "https://www.lazada.co.th/products/i5120492361.html",
       "logo": "https://raw.githubusercontent.com/bigboxthailand/cryptoclock/main/lazada.png"
     }
   ]
