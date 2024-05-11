@@ -154,6 +154,7 @@
     </div>
 
     <div class="main" onclick="toggleNav()">
+      <button id="lang" onclick="changeLang()" style="position: absolute;right: 10px;">EN</button>
       <div class="container">
         <p></p>
         <br /><br /><br />
@@ -649,6 +650,10 @@
           top: 0,
           behavior: "smooth",
         });
+      }
+
+      function changeLang() {
+        window.location.href = 'https://htmlpreview.github.io/?https://github.com/bigboxthailand/cryptoclock/blob/main/Manual/manual_en.html';
       }
     </script>
   </body>

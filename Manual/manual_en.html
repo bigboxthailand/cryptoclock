@@ -1,87 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CryptoClock Guide</title>
-<style>
-    body, html {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png" />
+    <link rel="shortcut icon" href="logo.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>CryptoClock Guide</title>
+    <style>
+      body,
+      html {
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: #e6f7ff; /* Light blue background */
-    }
-    .container {
+        font-family: "Sarabun", Arial, sans-serif;
+        background-color: #121212; /* Light blue background */
+      }
+
+      .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #242424;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+      .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #ccc;
+        display: block;
+        transition: 0.3s;
+      }
+      .sidebar a:hover {
+        color: #fff;
+      }
+      .main {
+        margin-left: 260px;
+        padding: 16px;
+        background-color: #181818; /* Dark background for main content */
+        color: #fff; /* White text color for content */
+        cursor: pointer;
+      }
+      .openbtn {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 12;
+        background-color: #333;
+        color: white;
+        padding: 10px 15px;
+        font-size: 20px;
+        z-index: 1000;
+      }
+
+      #scrollToTopBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: #333; /* Matching dark theme button background */
+        color: white;
+        border: none;
+        border-radius: 5px; /* Rounded corners for style */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for 3D effect */
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      #scrollToTopBtn:hover {
+        background-color: #555; /* Slightly lighter on hover */
+        transform: scale(1.1); /* Slightly larger on hover for emphasis */
+      }
+
+      @media screen and (max-width: 768px) {
+        .sidebar {
+          width: 0;
+        }
+        .main {
+          margin-left: 0;
+        }
+      }
+      .container {
         max-width: 1200px;
         margin: auto;
         padding: 20px;
-    }
-    header {
-        background-color: #005580; /* Darker blue */
+      }
+
+      header {
+        background-color: #1a1a1a; /* Darker blue */
         color: #ffffff;
         padding: 20px 0;
         text-align: center;
-    }
-    section {
+      }
+      section {
         margin: 20px 0;
-    }
-    h2 {
-        color: #005580; /* Darker blue for headings */
-    }
-    p {
-        color: #333; /* Dark grey for text */
-    }
-</style>
-</head>
-<body>
+      }
+      h2 {
+        color: #cccccc; /* ใช้สีน้ำเงินเข้มเพื่อความชัดเจน */
+        /* ปรับเพิ่มตามความต้องการ */
+      }
 
-<div class="container">
-    <header>
-        <h1>Welcome to the CryptoClock Guide</h1>
-    </header>
+      ul {
+        list-style-type: none; /* ไม่แสดง bullet points ให้รายการ */
+      }
 
-    <section>
-        <h2>Introduction</h2>
-        <p>This guide will help you navigate through the setup and use of your CryptoClock.</p>
-    </section>
+      ul li {
+        margin-bottom: 10px; /* กำหนดระยะห่างระหว่างรายการ */
+        font-size: 20px;
+      }
 
-    <section>
-        <h2>Getting Started</h2>
-        <p>Learn how to connect your CryptoClock to Wi-Fi and set up your profile.</p>
-    </section>
+      ul li ul li {
+        margin-top: 5px; /* กำหนดระยะห่างสำหรับรายการย่อย */
+        font-size: 18px;
+      }
 
-    <!-- Add more sections here as per your content -->
-    <section>
-        <h2>Basic Usage</h2>
-        <p>Understand how to display time, date, and track your selected cryptocurrency values.</p>
-    </section>
+      p {
+        color: #ccc; /* Light grey for text, assuming you are still using the dark theme */
+        font-size: 20px; /* Increased font size for better readability */
+        line-height: 1.6; /* Increased line height for better readability */
+      }
 
-    <section>
-        <h2>Advanced Settings and Customization</h2>
-        <p>Learn how to update data frequency, adjust screen brightness, and set screen timeout preferences.</p>
-    </section>
+      img {
+        display: block;
+        max-width: 50%;
+        height: auto;
+        text-align: center;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mySidebar" class="sidebar">
+      <a href="#home" onclick="navigateTo('home')">Home</a>
+      <a href="#introduction" onclick="navigateTo('introduction')"
+        >Introduction</a
+      >
+      <a href="#connect" onclick="navigateTo('connect')">Connect WiFi</a>
+      <a href="#information" onclick="navigateTo('information')">Information</a>
+      <a href="#setting" onclick="navigateTo('setting')">Settings</a>
+      <a href="#api" onclick="navigateTo('api')">APIs</a>
+      <a href="#service" onclick="navigateTo('service')">Service</a>
+      <a href="#faq" onclick="navigateTo('faq')">FAQ</a>
+    </div>
 
-    <section>
-        <h2>Connecting through API</h2>
-        <p>Details on connecting to various exchange APIs to fetch real-time cryptocurrency data.</p>
-    </section>
+    <div class="main" onclick="toggleNav()">
+      <button id="lang" onclick="changeLang()" style="position: absolute;right: 10px;">TH</button>
+      <div class="container">
+        <p></p>
+        <br /><br /><br />
+        <header id="home">
+          <h1>CryptoClock's User Manual</h1>
+        </header>
 
-    <section>
-        <h2>Troubleshooting and Support</h2>
-        <p>Guidance on solving common issues and how to get further assistance.</p>
-    </section>
+        <img src="CryptoClock.png" alt="alternative text" />
+        <section id="introduction">
+          <h2>Introduction</h2>
+          <p>
+            This guide will help you understand how to set up and use your
+            CryptoClock.
+          </p>
+          <p>
+            Welcome to the CryptoClock User Guide. This guide is designed to
+            help you understand and fully utilize your CryptoClock, whether you
+            are a new user or have previous experience. CryptoClock is not just
+            a simple time-telling device; it is also a tool that connects you to
+            the world of cryptocurrencies and conveniently displays the values
+            of the cryptocurrencies you are interested in, through API
+            connections with various exchanges. This guide will provide basic
+            information about settings, basic operations, and advanced features
+            that CryptoClock offers, along with troubleshooting methods for
+            issues you may encounter. We hope this guide helps you enjoy and get
+            the most out of your CryptoClock.
+          </p>
+        </section>
 
-    <section>
-        <h2>FAQ</h2>
-        <p>Answers to frequently asked questions about using your CryptoClock.</p>
-    </section>
+        <section id="hardware">
+          <h2>Hardware Technical</h2>
+          <p><strong>Parameters:</strong></p>
+          <ul>
+            <li>
+              Use low-power dual-core 32-bit CPU, which can be used as an
+              application processor.
+            </li>
+            <li>
+              The main frequency is up to 240MHz, and the computing power is up
+              to 600 DMIPS.
+            </li>
+            <li>Built-in 520 KB SRAM.</li>
+            <li>Support UART/SPI/I2C/PWM/ADC/DAC and other interfaces.</li>
+            <li>Support OV2640 and OV7670 cameras, built-in flash.</li>
+            <li>Support picture WiFI upload.</li>
+            <li>Support TF card.</li>
+            <li>Support multiple sleep modes.</li>
+            <li>Embedded Lwip and FreeRTOS.</li>
+            <li>Support STA/AP/STA+AP working mode.</li>
+            <li>
+              Support Smart Config/AirKiss one-click network configuration.
+            </li>
+            <li>Support secondary development.</li>
+          </ul>
 
+          <p><strong>Specifications:</strong></p>
+          <ul>
+            <li>Working voltage 4.75-5.25V.</li>
+            <li>SPI Flash default 32Mbit.</li>
+            <li>RAM internal 520KB.</li>
+            <li>Wi-Fi 802.11b/g/n/e/i.</li>
+            <li>Bluetooth Bluetooth 4.2BR/EDR and BLE standard.</li>
+            <li>Support interface (2Mbps) UART, SPI, I2C, PWM.</li>
+            <li>Support TF card, maximum support 4G.</li>
+            <li>IO port 9.</li>
+            <li>Serial port rate default 115200bps.</li>
+            <li>Spectrum range 2400 ~2483.5MHz.</li>
+            <li>Antenna form Onboard PCB antenna, gain 2dBi.</li>
+            <li>
+              Image output format: JPEG (only OV2640 support), BMP, GRAYSCALE.
+            </li>
+            <li>Packaging method DIP-16.</li>
+            <li>
+              Transmit power 802.11b: 17±2dBm (@11Mbps), 802.11g: 14±2dBm
+              (@54Mbps), 802.11n: 13±2dBm (@MCS7).
+            </li>
+            <li>Receiving sensitivity varies by mode and rate.</li>
+            <li>Power consumption details.</li>
+            <li>Security WPA/WPA2/WPA2-Enterprise/WPS.</li>
+            <li>Working temperature -20 ℃~ 70 ℃.</li>
+            <li>Storage environment -40 ℃~ 125 ℃, <90%RH.</li>
+          </ul>
+        </section>
 
+        <section id="connect">
+          <h2>Getting Started</h2>
+          <ul>
+            <li>
+              1. Learn how to connect your CryptoClock to Wi-Fi. When powered
+              on, the CryptoClock will search for Wi-Fi networks.
+              <ul>
+                <img src="1.jpeg" alt="alternative text" />
+                <li>
+                  1.1 If Wi-Fi connection is successful, an IP will be
+                  displayed, and you will be directed to the home or last
+                  visited page.
+                  <img src="1.1.jpeg" alt="alternative text" />
+                </li>
+                <li>
+                  1.2 If it's your first time turning it on and the CryptoClock
+                  cannot find Wi-Fi, it will automatically start setting up
+                  Wi-Fi.
+                  <img src="1.2.jpg" alt="alternative text" />
+                  <ul>
+                    <li>
+                      1.2.1 Connect using a smartphone or computer to the Wi-Fi
+                      named "CryptoClock"; you may need to wait 1-2 minutes for
+                      it to find the Wi-Fi.
+                      <img src="1.2.1.jpg" alt="alternative text" />
+                    </li>
+                    <li>
+                      1.2.2 After connecting, scan the QR Code with your
+                      smartphone or enter the Browser Url: 192.168.4.1 on your
+                      computer.
+                      <img src="1.2.2.jpg" alt="alternative text" />
+                    </li>
+                    <li>
+                      1.2.3 Enter the SSID and password in the provided fields,
+                      note that only 2.4GHz Wi-Fi is supported (not 5GHz).
+                      <img src="1.2.3.jpg" alt="alternative text" />
+                    </li>
+                    <li>
+                      1.2.4 Press the Update button and wait for a moment.
+                      CryptoClock will save the settings and restart.
+                      <img src="1.2.4.jpg" alt="alternative text" />
+                    </li>
+                    <li>
+                      1.2.5 Once restarted, the Wi-Fi connection should be
+                      established. (If not, it means the SSID or password was
+                      entered incorrectly; repeat step 1.2.1.)
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <section id="information">
+            <h2>Basic Operation</h2>
+            <p>2. Overview of the various displays on your CryptoClock</p>
+            <ul>
+              <li>
+                2.1 Personal information, time, and date display
+                <img src="2.1.jpg" alt="alternative text" />
+                <ul>
+                  <li>
+                    2.1.1 Profile picture, users can set their own profile
+                    picture.
+                    <img src="2.1.1.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.1.2 Personal information including real name, surname,
+                    nickname, position, and company, which users can set
+                    themselves.
+                    <img src="2.1.2.jpg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.1.3 Clock displays time and date automatically, no setup
+                    required, and users can change the display color.
+                    <img src="2.1.3.jpg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.1.4 Touching any area of the screen other than the profile
+                    picture area switches to the cryptocurrency coin display.
+                    <img src="2.1.4.jpg" alt="alternative text" />
+                  </li>
+                </ul>
+              </li>
+              <li>
+                2.2 Cryptocurrency coin and desired information display
+                <img src="2.2.jpeg" alt="alternative text" />
+                <ul>
+                  <li>
+                    2.2.1 Coins of interest, pressing this allows switching to
+                    another coin; typically, two coins can be toggled between in
+                    the standard version.
+                    <img src="2.2.1.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.2 Comparison currency, in the standard version purchased
+                    in Thailand, two currencies, THB and USDT, are available,
+                    pressing this toggles between them.
+                    <img src="2.2.2.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.3 Real-time coin price along with date and time, with
+                    the option to adjust update frequency in settings.
+                    <img src="2.2.3.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.4 Lowest and highest price in the last 24 hours.
+                    <img src="2.2.4.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.5 Coin logo of interest, pressing it allows setting the
+                    coins of interest through scanning a QR Code.
+                    <img src="2.2.5.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.6 The Set button, pressing it goes to the internal
+                    settings page.
+                    <img src="2.2.6.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.2.7 Touching any other area outside of the coin, currency,
+                    logo, and Set button switches to the personal information
+                    and clock display.
+                    <img src="2.2.7.jpeg" alt="alternative text" />
+                  </li>
+                </ul>
+              </li>
+              <li>
+                2.3 Internal settings display
+                <img src="2.3.jpeg" alt="alternative text" />
+                <ul>
+                  <li>
+                    2.3.1 Details such as Device ID, Firmware version, and the
+                    CryptoClock's IP address.
+                    <img src="2.3.1.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.3.2 Various settings such as screen brightness, data
+                    update interval, screen timeout, and up/down settings
+                    buttons.
+                    <img src="2.3.2.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.3.3 The back button to return to the cryptocurrency coin
+                    display page.
+                    <img src="2.3.3.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    2.3.4 Developer credit, myself (Natthaphong Suwanjit), thank
+                    you for supporting the product. You can support the
+                    developer with this QR Code.
+                    <img
+                      style="width: 20%"
+                      src="2.3.4.1.jpg"
+                      alt="alternative text"
+                    />
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
 
+          <section id="setting">
+            <h2>Advanced Settings and Customization</h2>
+            <p>
+              3. Learn how to update data frequency, adjust screen brightness,
+              and set screen timeout.
+            </p>
+            <ul>
+              <li>
+                3.1 Adjusting settings for screen brightness, price update
+                interval, and screen timeout.
+                <img src="3.1.jpeg" alt="alternative text" />
+                <ul>
+                  <li>
+                    3.1.1 Adjusting screen brightness settings. Pressing the
+                    up/down buttons increases/decreases brightness by 30%
+                    (100->70->40->10).
+                    <img src="3.1.1.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.1.2 Adjusting the price update interval settings. It can
+                    be set as (10, 30, 60, 120, 300).
+                    <img src="3.1.2.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.1.3 Adjusting the screen timeout settings. It can be set
+                    as (0, 30, 60, 120, 300). Setting it to 0 means no timeout;
+                    the screen will stay on continuously. Touching the screen
+                    once restores the brightness to the previously set level.
+                    <img src="3.1.3.jpeg" alt="alternative text" />
+                  </li>
+                </ul>
+              </li>
+              <li>
+                3.2 Adjusting personal user information and display settings.
+                This can be done by pressing on the profile picture, which
+                displays a QR Code and then using a phone within the same
+                network to scan it.
+                <img src="3.2.jpeg" alt="alternative text" />
+                <img src="3.2.0.jpg" alt="alternative text" />
+                <ul>
+                  <li>
+                    3.2.1 Uploading a profile picture. Only images with .jpg
+                    extension and not exceeding 100x100 in size can be uploaded,
+                    and a link is provided to convert the image.
+                    <img src="3.2.1.png" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.2.2 Adjusting other personal user information such as real
+                    name, surname, nickname, position, and company or
+                    affiliation (English only).
+                    <img src="3.2.2.png" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.2.3 Adjusting Motto or slogan settings. It must not exceed
+                    15 characters and is used to express our identity (English
+                    only).
+                    <img src="3.2.3.png" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.2.4 Adjusting the background and font colors.
+                    <img src="3.2.4.png" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.2.5 Profile upload button. Once pressed, it updates the
+                    settings to our CryptoClock and it will automatically
+                    restart.
+                    <img src="3.2.5.png" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.2.6 Purchase channels for CryptoClock, can be accessed by
+                    scanning a QRCode or through a link.
+                    <img src="3.2.6.jpeg" alt="alternative text" />
+                  </li>
+                </ul>
+              </li>
+              <li>
+                3.3 Adjusting cryptocurrency coin settings.
+                <img src="3.3.jpeg" alt="alternative text" />
+                <ul>
+                  <li>
+                    3.3.1 Step 1, click on the cryptocurrency coin logo at the
+                    top center.
+                    <img src="3.3.1.jpeg" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.3.2 CryptoClock will display a QRCode, bring a mobile
+                    phone to scan it or enter the browser and type the ip
+                    address.
+                    <img src="3.3.2.jpg" alt="alternative text" />
+                  </li>
+                  <li>
+                    3.3.3 Enter the web page displaying coins, select a coin
+                    from the list, and press the Submit button. Subsequently,
+                    CryptoClock will restart itself and switch to the new coin.
+                    <img src="3.3.3.png" alt="alternative text" />
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section id="api">
+            <h2>API Integration</h2>
+            <p>
+              4. Details on how to connect to various exchange APIs to retrieve
+              real-time cryptocurrency data.
+            </p>
+            <ul>
+              <li>
+                4.1 Coin prices are primarily based on Binance and BitKUB
+                Exchange.
+              </li>
+              <li>
+                4.2 For coins available on both platforms and paired with USDT,
+                prices from Binance are displayed first.
+              </li>
+              <li>
+                4.3 For coins available on both platforms and paired with THB,
+                prices from BitKUB are displayed first.
+              </li>
+              <li>
+                4.4 For coins not available on Binance and paired with USDT,
+                they are divided by the USDT/THB rate from Binance.
+              </li>
+              <li>
+                4.5 For coins not available on BitKUB and paired with THB, they
+                are multiplied by the USDT/THB rate from Binance.
+              </li>
+            </ul>
+          </section>
+
+          <section  id="service">
+            <h2>Troubleshooting and Support</h2>
+            <p>
+              5. Tips for troubleshooting common issues and how to seek further
+              help.
+            </p>
+            <ul>
+              <li>
+                5.1 If the screen freezes or does not display, press the reset
+                button on the back of the screen (rim button).
+                <img src="5.1.1.jpg" alt="alternative text" />
+              </li>
+              <li>
+                5.2 If the coin logo does not match the selected one, press the
+                coin logo to change it again.
+              </li>
+              <li>
+                5.3 If unable to display values from Cryptocurrency coins, check
+                the internet signal, and also try turning the device off and on
+                again.
+              </li>
+              <li>
+                5.3 CryptoClock uses a 5V/2A power supply; ensure the power
+                source is correct before use.
+              </li>
+            </ul>
+          </section>
+
+          <section  id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <p>
+              6. Answers to frequently asked questions about using your
+              CryptoClock.
+            </p>
+            <ul>
+              <li>
+                <strong>6.1. How do I connect my CryptoClock to Wi-Fi?</strong>
+                <p>
+                  When powered on, if the CryptoClock has never been connected
+                  before, it will act as a Server for us to configure by
+                  connecting to SSID CryptoClock and scanning the QR Code.
+                </p>
+              </li>
+              <li>
+                <strong
+                  >6.2. How do I set the time and date on my
+                  CryptoClock?</strong
+                >
+                <p>
+                  For those purchased in Thailand, it is not necessary to set
+                  the time and date as it will automatically update to universal
+                  time.
+                </p>
+              </li>
+              <li>
+                <strong
+                  >6.3. How do I add or remove cryptocurrencies I want to
+                  follow?</strong
+                >
+                <p>
+                  You can click on the coin icon at the top center to enter the
+                  coin setting mode and scan the QR Code to select coins, with a
+                  typical capability to choose 2 coins in the standard version.
+                </p>
+              </li>
+              <li>
+                <strong
+                  >6.4. What should I do if my CryptoClock does not display
+                  values or displays incorrect values?</strong
+                >
+                <p>
+                  Make sure your CryptoClock is connected to the internet. If
+                  there are still issues, try pressing the reset button on the
+                  back (rim button) to restart the device.
+                </p>
+              </li>
+              <li>
+                <strong
+                  >6.5. How do I update the firmware of my CryptoClock?</strong
+                >
+                <p>
+                  Currently, updates are not available, but you can set your
+                  profile by long-pressing the profile picture and scanning the
+                  QR Code.
+                </p>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+    <button id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
     <footer>
-        <p style="text-align:center; color:#005580;">©2024 CryptoClock Guide</p>
+      <p style="text-align: center; color: #005580">©2024 CryptoClock Guide</p>
     </footer>
-</div>
 
-</body>
+    <script>
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementsByClassName("main")[0].style.marginLeft = "260px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementsByClassName("main")[0].style.marginLeft = "0";
+      }
+
+      function navigateTo(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const sectionTop = section.offsetTop; // Get the top position of the section relative to the document
+          window.scrollTo({
+            top: sectionTop, // Use the section's top position for scrolling
+            behavior: "smooth", // Ensure the scrolling is smooth
+          });
+          closeNav();
+        }
+      }
+
+      function toggleNav() {
+        var sidebarWidth = document.getElementById("mySidebar").style.width;
+        if (sidebarWidth === "250px") {
+          closeNav();
+        } else {
+          openNav();
+        }
+      }
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      function changeLang() {
+        window.location.href = 'https://htmlpreview.github.io/?https://github.com/bigboxthailand/cryptoclock/blob/main/Manual/manual_th.html';
+      }
+    </script>
+  </body>
 </html>
