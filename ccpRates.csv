@@ -1,5 +1,8 @@
-Channe,Rate
-THB,1.1
-CCTs,1.2
-CCTb,1.3
-ZXA,1.4
+coinInput,coinOutput,Rate
+THB,CCP,100
+USDT,CCP,3448
+SAT,CCP,3.31
+CCT,CCP,110
+SAT,THB,0.0331
+USDT,THB,34.48
+CCP,THB,1
