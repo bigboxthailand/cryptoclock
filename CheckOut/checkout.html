@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoClock Customize | สร้างนาฬิกาคริปโตในแบบของคุณ</title>
+    <!-- โหลด jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/png" href="/logoonly32.png">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #80d8ff, #4db6ac);
+            color: #212121;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+
+
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #00796b;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #b0bec5;
+            border-radius: 5px;
+            background: #f5f5f5;
+            font-size: 1rem;
+            color: #424242;
+            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border 0.3s;
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            border: 2px solid #80d8ff;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #26a69a;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #00796b;
+        }
+
+        .baseprice {
+            margin-top: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: right;
+            color: #ffffff;
+        }
+
+        .discountprice {
+            margin-top: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: right;
+            color: #ff0000;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            margin-top: 5px;
+
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+            color: #424242;
+        }
+
+
+
+        .summary-section {
+            margin-top: 20px;
+        }
+
+        /* สไตล์ข้อความและการ์ด */
+        #summaryDetails {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #424242;
+        }
+
+        #summaryDetails p {
+            margin: 10px 0;
+        }
+
+        #totalPrice,
+        #averagePrice {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #totalPrice {
+            color: #004d40;
+            /* สีเขียวเข้ม */
+        }
+
+        #averagePrice {
+            color: #00796b;
+            /* สีเขียวเข้มปานกลาง */
+        }
+
+        button:hover {
+            background: #004d40;
+            transition: 0.3s;
+        }
+
+        /* เงาและพื้นหลัง */
+        .card {
+            background: linear-gradient(135deg, #ffffff, #bababa);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+
+
+        #backButton:hover {
+            background: #004d40;
+            transition: 0.3s;
+        }
+
+
+
+        #payment img {
+            max-width: 200px;
+        }
+
+        .image-preview {
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-preview img {
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #preview2,#summarypreview2 {
+            position: absolute;
+            top: 43.3%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 91%;
+            /* ปรับให้ภาพมีขนาดเหมาะสม */
+            height: auto;
+            display: none;
+            /* เปลี่ยนเป็น block เพื่อดูตัวอย่าง */
+        }
+
+        #summaryPreview {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+     
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .card {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            #preview2,
+            #summarypreview2 {
+                position: absolute;
+                top: 43.3%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 70%;
+                /* ปรับให้ภาพมีขนาดเหมาะสม */
+                height: auto;
+                display: none;
+                /* เปลี่ยนเป็น block เพื่อดูตัวอย่าง */
+            }
+        }
+
+        .payment-info input,
+        .payment-info textarea,
+        .payment-info select {
+            width: calc(100%);
+            /* ปรับความกว้างให้อยู่ภายใน */
+            max-width: 100%;
+            /* ไม่ให้ล้นออก */
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #b0bec5;
+            border-radius: 5px;
+            background: #f5f5f5;
+            font-size: 1rem;
+            color: #424242;
+            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border 0.3s;
+            box-sizing: border-box;
+            /* ควบคุมขอบ Padding */
+        }
+
+        .payment-info input:focus,
+        .payment-info textarea:focus,
+        .payment-info select:focus {
+            border: 2px solid #80d8ff;
+            outline: none;
+        }
+
+        /* สไตล์ส่วนหัว */
+        .header {
+            display: flex;
+            justify-content: center;
+            /* จัดข้อความให้อยู่กึ่งกลางแนวนอน */
+            align-items: center;
+            /* จัดข้อความให้อยู่กึ่งกลางแนวตั้ง */
+            height: 150px;
+            /* กำหนดความสูงของส่วนหัว */
+
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ส่วนข้อความหัวเรื่อง -->
+    <header class="header">
+        <h1>CryptoClock Customize</h1>
+    </header>
+    <!-- ขั้นตอนการเลือก -->
+    <div id="selectionSection" class="container">
+        <div class="card image-preview">
+            <h3>ตัวอย่าง CryptoClock</h3>
+            <div style="position: relative; display: inline-block;">
+                <img id="preview" src="bodyblack.png" alt="Preview" style="max-width: 100%; height: auto;">
+                <img id="preview2" src="nofirmware.png" alt="Preview 2">
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="step" id="step1">
+                <h3>Step 1: เลือกสีของตัวเครื่อง</h3>
+                <select id="color">
+                    <option value="white" data-price="0" >ขาว(690 บาท)</option>
+                    <option value="black" data-price="0" selected>ดำ(690 บาท)</option>
+                    <option value="clear" data-price="0">ใส(690 บาท)</option>
+                    <option value="green" data-price="0">เขียว(690 บาท)</option>
+                    <option value="silver" data-price="50">เงิน(740 บาท)</option>
+                    <option value="gold" data-price="80">ทอง(770 บาท)</option>
+                </select>
+            </div>
+            <div class="step" id="step2">
+                <h3>Step 2: เลือกสกรีนหน้า</h3>
+                <select id="screen">
+                    <option value="no-screen" data-price="0" selected>ไม่สกรีน(+0 บาท)</option>
+                    <option value="print-screen" data-price="40">ปริ้นสกรีน(+40 บาท)</option>
+                    <option value="flat-sticker" data-price="40">สติ๊กเกอร์เรียบ(+40 บาท)</option>
+                    <option value="raised-sticker" data-price="80">สติ๊กเกอร์นูน(+80 บาท)</option>
+                </select>
+
+            </div>
+            <div class="step" id="step3">
+                <h3>Step 3: เลือกสายคาดกล่อง</h3>
+                <select id="strap">
+                    <option value="no-strap" data-price="0" selected>ไม่มี(+0 บาท)</option>
+                    <option value="logo-strap" data-price="30">มีสายคาดพร้อมโลโก้ CryptoClock(+30 บาท)</option>
+                    <option value="no-logo-strap" data-price="60">มีสายคาดไม่มีโลโก้ CryptoClock(+60 บาท)</option>
+                </select>
+            </div>
+            <div class="step" id="step4">
+                <h3>Step 4: การปรับแต่งเฟิร์มแวร์</h3>
+                <select id="firmware">
+                    <option value="no-firmware" data-price="0">ไม่มี(+0 บาท)</option>
+                    <option value="custom-firmware" data-price="150" selected> มีการปรับแต่งเฟิร์มแวร์(+150 บาท)
+                    </option>
+                </select>
+            </div>
+            <div class="step" id="step5">
+                <h3>Step 5: การ์ดอวยพร</h3>
+                <select id="card">
+                    <option value="no-card" data-price="0" selected>ไม่มี(+0 บาท)</option>
+                    <option value="custom-card" data-price="50"> มีการ์ดอวยพร(+50 บาท)</option>
+                </select>
+            </div>
+            <div class="step" id="step6">
+                <h3>Step 6: จำนวน</h3>
+                <select id="quantity">
+                    <option value="100" selected>100 (ลด 10%)</option>
+                    <option value="200">200 (ลด 20%)</option>
+                    <option value="500">500 (ลด 25%)</option>
+                    <option value="750">750 (ลด 30%)</option>
+                    <option value="1000">1000 (ลด 35%)</option>
+                </select>
+
+            </div>
+            <div class="payment-info">
+                <input type="text" id="code" placeholder="โค้ดลดราคา">
+            </div>
+            <div class="baseprice">
+                ราคาต่อตัวก่อนลด: <span id="basepricebefore">0</span> บาท
+            </div>
+            <div class="baseprice">
+                ราคาต่อตัวหลังลด: <span id="baseprice">0</span> บาท
+            </div>
+            <div class="price">
+                ราคารวมหลังลด: <span id="price">0</span> บาท
+            </div>
+            <div class="discountprice">
+                ลดราคาไปได้: <span id="discountprice">0</span> บาท
+            </div>
+
+            <button id="summaryButton">สรุป</button>
+        </div>
+    </div>
+
+    <!-- สรุปการเลือก -->
+    <div id="summarySection" class="container hidden">
+        <div class="card">
+            <h3 style="text-align: center; font-size: 1.5rem; color: #00796b;">สรุปการเลือก</h3>
+            <!-- รูป Preview -->
+
+            <div class="card image-preview">
+                <div style="position: relative; display: inline-block;">
+                    <img id="summaryPreview" src="" alt="Preview">
+                    <img id="summarypreview2" src="nofirmware.png" alt="Preview 2">
+                </div>
+            </div>
+
+            <div id="summaryDetails"
+                style="padding: 15px; background: #f9f9f9; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                <p><strong>สี:</strong> <span id="selectedColor">white</span></p>
+                <p><strong>สกรีนหน้า:</strong> <span id="selectedScreen">no-screen</span></p>
+                <p><strong>สายคาดกล่อง:</strong> <span id="selectedStrap">no-strap</span></p>
+                <p><strong>เฟิร์มแวร์:</strong> <span id="selectedFirmware">no-firmware</span></p>
+                <p><strong>การ์ดอวยพร:</strong> <span id="selectedCard">no-card</span></p>
+                <p><strong>จำนวน:</strong> <span id="selectedQuantity">100</span></p>
+
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <p style="font-size: 1.2rem; font-weight: bold; color: #004d40;">ราคาสินค้ารวม: <span
+                        id="totalPrice">100</span> บาท</p>
+                <p style="font-size: 1rem; font-weight: bold; color: #00796b;">เฉลี่ยตกกล่องละ: <span
+                        id="averagePrice">1.00</span> บาท</p>
+                <p style="font-size: 1rem; font-weight: bold; color: #00796b;">ค่าขนส่ง:<span
+                        id="shippingPrice">300</span> บาท</p>
+                <p style="font-size: 1.4rem; font-weight: bold; color: #004d40;">ราคาที่ต้องชำระ: <span
+                        id="totalPriceinc">0</span> บาท</p>
+
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <button id="backButton"
+                    style="padding: 10px 20px; background: #26a69a; color: white; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer;">กลับไปเลือก</button>
+            </div>
+        </div>
+        <div class="card">
+            <h3>กรอกข้อมูลสำหรับการจัดส่ง</h3>
+            <div class="payment-info">
+                <input type="email" id="email" placeholder="อีเมล์">
+                <input type="text" id="name" placeholder="ชื่อ">
+                <input type="tel" id="phone" placeholder="เบอร์โทร">
+                <textarea id="address" placeholder="ที่อยู่จัดส่ง"></textarea>
+
+            </div>
+            <h3>เลือกวิธีการชำระเงิน</h3>
+            <div class="payment-info">
+                <select id="paymentMethod">
+                    <option value="promptpay" selected>PromptPay(+10%)</option>
+                    <option value="sat">SAT</option>
+                    <option value="usdt">USDT (TRC-20)</option>
+                </select>
+
+            </div>
+
+            <button id="checkoutButton">สร้าง Payment QR Code</button>
+            <div>
+                <br>
+            </div>
+            <div id="payment" style="text-align: center;"></div>
+
+            <div class="payment-info">
+                <br>
+                <h3>อัพโหลดหลักฐานการชำระเงิน</h3>
+                <input type="file" id="paymentProof" accept="image/*" style="margin-bottom:10px;">
+
+                <button id="confirmPaymentButton" style="margin-top:10px;">ยืนยันการชำระเงิน</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const prices = {
+            color: 0, screen: 0, strap: 0, firmware: 0, card: 0, quantity: 100
+        };
+        const basepricebeforeElement = document.getElementById("basepricebefore");
+        const basepriceElement = document.getElementById("baseprice");
+        const priceElement = document.getElementById("price");
+        const discountpriceElement = document.getElementById("discountprice");
+
+        const updatePreview2 = () => {
+            const firmware = document.getElementById("firmware").value;
+            const preview2 = document.getElementById("preview2");
+            const summarypreview2 = document.getElementById("summarypreview2");
+            if (firmware === "custom-firmware") {
+                preview2.style.display = "block"; // แสดงภาพ
+                summarypreview2.style.display = "block";
+                document.getElementById("preview2").src = "firmware.png";
+                document.getElementById("summarypreview2").src = "firmware.png";
+            } else {
+                //preview2.style.display = "none"; // ซ่อนภาพ
+               // summarypreview2.style.display = "none";
+               document.getElementById("preview2").src = "nofirmware.png";
+               document.getElementById("summarypreview2").src = "nofirmware.png";
+            }
+        };
+
+        const updatePrice = () => {
+            const colorPrice = parseInt(document.querySelector("#color option:checked").dataset.price || 0);
+            const screenPrice = parseInt(document.querySelector("#screen option:checked").dataset.price || 0);
+            const strapPrice = parseInt(document.querySelector("#strap option:checked").dataset.price || 0);
+            const firmwarePrice = parseInt(document.querySelector("#firmware option:checked").dataset.price || 0);
+            const cardPrice = parseInt(document.querySelector("#card option:checked").dataset.price || 0);
+            const quantity = parseInt(document.getElementById("quantity").value);
+
+            // กำหนดส่วนลดตามจำนวน
+            let discountRate = 0;
+            if (quantity === 100) discountRate = 0.1;
+            else if (quantity === 200) discountRate = 0.2;
+            else if (quantity === 500) discountRate = 0.25;
+            else if (quantity === 750) discountRate = 0.3;
+            else if (quantity === 1000) discountRate = 0.35;
+
+
+            const basebeforePrice = (690 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice);
+            const basePrice = basebeforePrice * (1 - discountRate)
+            const totalPrice = basePrice * quantity;
+            const discountPrice = basebeforePrice * quantity - totalPrice;
+
+            basepricebeforeElement.textContent = basebeforePrice;
+            basepriceElement.textContent = basePrice;
+            priceElement.textContent = totalPrice.toLocaleString();
+            discountpriceElement.textContent = discountPrice.toLocaleString();
+
+            const selectedColor = document.getElementById("color").value;
+
+            const selectedColor2 = document.getElementById("screen").value;
+            let previewSrc = "";
+            if (selectedColor2 != "no-screen") {
+
+                previewSrc = "bodysticker.png";
+            }
+            else {
+
+                switch (selectedColor) {
+                    case "white":
+                        previewSrc = "bodywhite.png";
+                        break;
+                    case "black":
+                        previewSrc = "bodyblack.png";
+                        break;
+                    case "clear":
+                        previewSrc = "bodyclear.png";
+                        break;
+                    case "green":
+                        previewSrc = "bodygreen.png";
+                        break;
+                    case "silver":
+                        previewSrc = "bodysilver.png";
+                        break;
+                    case "gold":
+                        previewSrc = "bodygold.png";
+                        break;
+                }
+            }
+            document.getElementById("preview").src = previewSrc;
+
+            updatePreview2(); // อัปเดตภาพซ้อน
+        };
+
+        const selectors = ["color", "screen", "strap", "firmware", "card", "quantity"];
+        selectors.forEach(selector => {
+            document.getElementById(selector).addEventListener("change", (event) => {
+                updatePrice();
+            });
+        });
+
+        document.getElementById("summaryButton").addEventListener("click", () => {
+            const colorPrice = parseInt(document.querySelector("#color option:checked").dataset.price || 0);
+            const screenPrice = parseInt(document.querySelector("#screen option:checked").dataset.price || 0);
+            const strapPrice = parseInt(document.querySelector("#strap option:checked").dataset.price || 0);
+            const firmwarePrice = parseInt(document.querySelector("#firmware option:checked").dataset.price || 0);
+            const cardPrice = parseInt(document.querySelector("#card option:checked").dataset.price || 0);
+            const totalQuantity = parseInt(document.getElementById("quantity").value);
+            var shippingPrice;
+            // คำนวณส่วนลดตามจำนวน
+            let discountRate = 0;
+            if (totalQuantity === 100) { discountRate = 0.1; shippingPrice = 300; }
+            else if (totalQuantity === 200) { discountRate = 0.2; shippingPrice = 400; }
+            else if (totalQuantity === 500) { discountRate = 0.25; shippingPrice = 600; }
+            else if (totalQuantity === 750) { discountRate = 0.3; shippingPrice = 700; }
+            else if (totalQuantity === 1000) { discountRate = 0.35; shippingPrice = 900; }
+
+            // ราคาก่อนส่วนลด (ต่อตัว)
+            const basebeforePrice = 690 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice;
+            // ราคาหลังส่วนลด (ต่อตัว)
+            const basePrice = basebeforePrice * (1 - discountRate);
+            // ราคารวมหลังส่วนลด
+            let totalPrice = basePrice * totalQuantity;
+
+
+
+            // ตรวจสอบโค้ดส่วนลด
+            const discountCode = document.getElementById("code").value.trim();
+            if (discountCode === "CRYPTOMIND") {
+                totalPrice = totalPrice * 0.95; // ลด 5%
+                alert("ใช้โค้ดส่วนลด CRYPTOMIND ลด 5% เรียบร้อยแล้ว!");
+
+            }
+            let totalPriceinc = totalPrice + shippingPrice;
+
+            // ราคาเฉลี่ยต่อตัวหลังส่วนลด
+            const averagePrice = (totalPrice / totalQuantity).toFixed(2);
+            // จำนวนส่วนลดที่ได้
+            const discountPrice = (basebeforePrice * totalQuantity) - totalPrice;
+            document.getElementById("selectedColor").textContent = document.getElementById("color").value;
+            document.getElementById("selectedScreen").textContent = document.getElementById("screen").value;
+            document.getElementById("selectedStrap").textContent = document.getElementById("strap").value;
+            document.getElementById("selectedFirmware").textContent = document.getElementById("firmware").value;
+            document.getElementById("selectedCard").textContent = document.getElementById("card").value;
+            document.getElementById("selectedQuantity").textContent = totalQuantity;
+            document.getElementById("totalPrice").textContent = Math.round(totalPrice).toLocaleString();
+            document.getElementById("totalPriceinc").textContent = Math.round(totalPriceinc).toLocaleString();
+            document.getElementById("averagePrice").textContent = Math.round(averagePrice);
+            document.getElementById("shippingPrice").textContent = shippingPrice;
+
+            // อัปเดตราคาต่าง ๆ ในหน้า summary
+            document.getElementById("basepricebefore").textContent = basebeforePrice;
+            document.getElementById("baseprice").textContent = Math.round(basePrice);
+            document.getElementById("price").textContent = Math.round(totalPrice).toLocaleString();
+            document.getElementById("discountprice").textContent = Math.round(discountPrice).toLocaleString();
+
+            const selectedColor = document.getElementById("color").value;
+            const selectedColor2 = document.getElementById("screen").value;
+            let previewSrc = "";
+            if (selectedColor2 != "no-screen") {
+
+                previewSrc = "bodysticker.png";
+            }
+            else {
+                switch (selectedColor) {
+                    case "white":
+                        previewSrc = "bodywhite.png";
+                        break;
+                    case "black":
+                        previewSrc = "bodyblack.png";
+                        break;
+                    case "clear":
+                        previewSrc = "bodyclear.png";
+                        break;
+                    case "green":
+                        previewSrc = "bodygreen.png";
+                        break;
+                    case "silver":
+                        previewSrc = "bodysilver.png";
+                        break;
+                    case "gold":
+                        previewSrc = "bodygold.png";
+                        break;
+                }
+
+            }
+
+            document.getElementById("summaryPreview").src = previewSrc;
+            document.getElementById("selectionSection").classList.add("hidden");
+            document.getElementById("summarySection").classList.remove("hidden");
+        });
+
+        document.getElementById("backButton").addEventListener("click", () => {
+            document.getElementById("selectionSection").classList.remove("hidden");
+            document.getElementById("summarySection").classList.add("hidden");
+        });
+
+
+        // ฟังก์ชันคำนวณ CRC สำหรับ PromptPay
+        function calculateCRC(payload) {
+            const polynomial = 0x1021;
+            let crc = 0xFFFF;
+
+            for (let i = 0; i < payload.length; i++) {
+                crc ^= payload.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = (crc << 1) ^ polynomial;
+                    } else {
+                        crc <<= 1;
+                    }
+                    crc &= 0xFFFF;
+                }
+            }
+            return crc.toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        // ฟังก์ชันสร้างข้อมูล QR สำหรับ PromptPay ด้วยหมายเลขโทรศัพท์และจำนวนเงิน (Static QR: 010211)
+        function generatePromptpayQR(phoneNumber, amount) {
+            // เปลี่ยนเบอร์โทรให้อยู่ในฟอร์แมต 0066xxxxxxxxx
+            const mobileNumber = '0066' + phoneNumber.replace(/^0/, '');
+
+            // ข้อมูลพื้นฐาน
+            const payloadFormat = '000201';  // Tag 00
+            const poiMethod = '010211';      // Tag 01: Static QR (11)
+
+            // AID PromptPay
+            const AID = '0016A000000677010111'; // Tag 00 ภายใน Merchant Account Info
+            // Mobile
+            const mobileID = '01' + mobileNumber.length.toString().padStart(2, '0') + mobileNumber;
+            const merchantAccountInfoLength = (AID + mobileID).length;
+            const merchantAccountInfo = '29' + merchantAccountInfoLength.toString().padStart(2, '0') + AID + mobileID;
+
+            // สกุลเงิน THB (764)
+            const currency = '5303764';  // Tag 53
+
+            // ประเทศ (TH)
+            const country = '5802TH';    // Tag 58
+
+            // จำนวนเงิน (ถ้ามากกว่า 0)
+            let amountField = '';
+            if (amount > 0) {
+                let amountStr = amount.toFixed(2);
+                amountField = '54' + amountStr.length.toString().padStart(2, '0') + amountStr; // Tag 54
+            }
+
+            // ประกอบข้อมูลตามลำดับที่ใช้ได้จริง
+            // ลำดับ: 00(PayloadFormat) 01(PointOfInit) 53(Currency) 58(Country) 29(MerchantInfo) 54(Amount) 63(CRC)
+            let fullPayload = payloadFormat + poiMethod + currency + country + merchantAccountInfo + amountField + '6304';
+
+            const crc = calculateCRC(fullPayload);
+            fullPayload += crc;
+
+            return fullPayload;
+        }
+
+        document.getElementById("checkoutButton").addEventListener("click", () => {
+            const method = document.getElementById("paymentMethod").value;
+            const paymentDiv = document.getElementById("payment");
+            let totalPriceinc1 = parseFloat(document.getElementById("totalPriceinc").textContent.replace(",", "")); // คำนวณเพิ่ม 10% สำหรับ PromptPay
+
+
+            if (method === "promptpay") {
+                const totalPrice1 = totalPriceinc1 * 1.10;
+                const qrData = generatePromptpayQR('0909879566', totalPrice1);
+                // ใช้บริการสร้าง QR code จาก api.qrserver.com
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
+                paymentDiv.innerHTML = `<img src="${qrUrl}" alt="PromptPay QR Code">`;
+            } else {
+                const qrCode = method === "sat" ? "sat.png" : "usdt_trc-20.png";
+                paymentDiv.innerHTML = `<img src="${qrCode}" alt="QR Code">`;
+            }
+        });
+        updatePrice();
+    </script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwKHq8wso4djw1HUAPI-ksmC36MFd2kBuT4yUvjh0yxB9pNbSs4E2q7BS4MGXrrOlJyUg/exec';
+
+        function validateAndSubmit() {
+            const email = $('#email').val().trim();
+            const name = $('#name').val().trim();
+            const phone = $('#phone').val().trim();
+            const address = $('#address').val().trim();
+            const paymentMethod = $('#paymentMethod').val();
+            const code = $('#code').val().trim();
+
+            const selectedColor = $('#selectedColor').text();
+            const selectedScreen = $('#selectedScreen').text();
+            const selectedStrap = $('#selectedStrap').text();
+            const selectedFirmware = $('#selectedFirmware').text();
+            const selectedCard = $('#selectedCard').text();
+            const selectedQuantity = $('#selectedQuantity').text();
+            const totalPrice = $('#totalPrice').text();
+
+            const fileInput = $('#paymentProof')[0];
+
+            if (!email || !name || !phone || !address) {
+                alert('กรุณากรอกข้อมูลให้ครบ');
+                return;
+            }
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('กรุณาอัพโหลดไฟล์หลักฐานการชำระเงิน');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const base64File = event.target.result.replace(/^.*,/, '');
+
+                const params = {
+                    email: email,
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    selectedColor: selectedColor,
+                    selectedScreen: selectedScreen,
+                    selectedStrap: selectedStrap,
+                    selectedFirmware: selectedFirmware,
+                    selectedCard: selectedCard,
+                    selectedQuantity: selectedQuantity,
+                    totalPrice: totalPrice,
+                    paymentMethod: paymentMethod,
+                    code: code,
+                    filename: file.name,
+                    file: base64File
+                };
+
+                console.log("Params:", params);
+
+                $.post(scriptURL, params, function (response) {
+                    try {
+                        // const result = JSON.parse(response).result;
+                        // if (result === "success") {
+                        //     alert('ส่งข้อมูลสำเร็จ');
+                        // } else {
+                        //     alert(`เกิดข้อผิดพลาด: ${result}`);
+                        // }
+                        // Response ถูกแปลงเป็น Object อัตโนมัติ ไม่ต้องใช้ JSON.parse()
+                        if (response.result === "success") {
+                            alert('ส่งข้อมูลสำเร็จ');
+                        } else {
+                            alert(`เกิดข้อผิดพลาด: ${response.message || "ไม่ทราบสาเหตุ"}`);
+                        }
+                    } catch (err) {
+                        console.error('Error parsing response:', err);
+                        alert('เกิดข้อผิดพลาดในการแปลงข้อมูลตอบกลับ');
+                    }
+                }).fail(function () {
+                    alert('เกิดข้อผิดพลาดในการส่งข้อมูล');
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+
+        // เชื่อมโยงกับปุ่ม
+        $('#confirmPaymentButton').on('click', validateAndSubmit);
+    </script>
+
+
+
+
+</body>
+
+</html>

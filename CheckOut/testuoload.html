@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+</head>
+<body>
+    <h2>อัปโหลดไฟล์ไปยัง Google Drive</h2>
+    <input type="file" id="file">
+    <button id="uploadBtn">อัปโหลด</button>
+    <p id="status" style="color: green; display: none;"></p>
+
+    <script type="text/javascript">
+        $(function(){
+            var url = 'https://script.google.com/macros/s/AKfycbwjB5AU-moaLYMa5Pu8g6CchRNhxoEFu-sa4tv02LL6MKW8MbeUk9mrsySKQqaK_qJWVg/exec';
+            var params = {
+                filename: '',
+                file: ''
+            };
+
+            $('#uploadBtn').on("click", function() {
+                var fileInput = $('#file')[0];
+
+                if (!fileInput.files.length) {
+                    $('#status').text("กรุณาเลือกไฟล์").css("color", "red").show();
+                    return;
+                }
+
+                var file = fileInput.files[0];
+                params.filename = file.name;
+
+                var fr = new FileReader();
+                fr.onload = function(e) {
+                    params.file = e.target.result.replace(/^.*,/, '');
+                    postJump();
+                };
+                fr.readAsDataURL(file);
+            });
+
+            function postJump() {
+                $.post(url, params, function(response) {
+                    var result = JSON.parse(response).result;
+                    $('#status').text(result).css("color", result.includes("Error") ? "red" : "green").show();
+                }).fail(function() {
+                    $('#status').text("เกิดข้อผิดพลาดในการอัปโหลด").css("color", "red").show();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
