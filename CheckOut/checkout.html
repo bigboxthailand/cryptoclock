@@ -7,7 +7,9 @@
     <title>CryptoClock Customize | สร้างนาฬิกาคริปโตในแบบของคุณ</title>
     <!-- โหลด jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="icon" type="image/png" href="/logoonly32.png">
+    <link rel="icon" type="image/png" href="logoonly32.png">
+   
+
     <style>
         /* Global Styles */
         body {
@@ -191,7 +193,8 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        #preview2,#summarypreview2 {
+        #preview2,
+        #summarypreview2 {
             position: absolute;
             top: 43.3%;
             left: 50%;
@@ -209,7 +212,7 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-     
+
 
 
         /* Responsive Design */
@@ -307,7 +310,7 @@
             <div class="step" id="step1">
                 <h3>Step 1: เลือกสีของตัวเครื่อง</h3>
                 <select id="color">
-                    <option value="white" data-price="0" >ขาว(690 บาท)</option>
+                    <option value="white" data-price="0">ขาว(690 บาท)</option>
                     <option value="black" data-price="0" selected>ดำ(690 บาท)</option>
                     <option value="clear" data-price="0">ใส(690 บาท)</option>
                     <option value="green" data-price="0">เขียว(690 บาท)</option>
@@ -336,8 +339,8 @@
             <div class="step" id="step4">
                 <h3>Step 4: การปรับแต่งเฟิร์มแวร์</h3>
                 <select id="firmware">
-                    <option value="no-firmware" data-price="0">ไม่มี(+0 บาท)</option>
-                    <option value="custom-firmware" data-price="150" selected> มีการปรับแต่งเฟิร์มแวร์(+150 บาท)
+                    <option value="no-firmware" data-price="0" selected>ไม่มี(+0 บาท)</option>
+                    <option value="custom-firmware" data-price="150"> มีการปรับแต่งเฟิร์มแวร์(+150 บาท)
                     </option>
                 </select>
             </div>
@@ -474,9 +477,9 @@
                 document.getElementById("summarypreview2").src = "firmware.png";
             } else {
                 //preview2.style.display = "none"; // ซ่อนภาพ
-               // summarypreview2.style.display = "none";
-               document.getElementById("preview2").src = "nofirmware.png";
-               document.getElementById("summarypreview2").src = "nofirmware.png";
+                // summarypreview2.style.display = "none";
+                document.getElementById("preview2").src = "nofirmware.png";
+                document.getElementById("summarypreview2").src = "nofirmware.png";
             }
         };
 
@@ -792,6 +795,7 @@
                         // Response ถูกแปลงเป็น Object อัตโนมัติ ไม่ต้องใช้ JSON.parse()
                         if (response.result === "success") {
                             alert('ส่งข้อมูลสำเร็จ');
+                            clearShippingDetails();
                         } else {
                             alert(`เกิดข้อผิดพลาด: ${response.message || "ไม่ทราบสาเหตุ"}`);
                         }
@@ -805,6 +809,15 @@
             };
 
             reader.readAsDataURL(file);
+        }
+
+        function clearShippingDetails() {
+            document.getElementById("email").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("paymentProof").value = "";
+            document.getElementById("payment").innerHTML = ""; // ล้างภาพ QR Code หรือข้อมูลการชำระเงิน
         }
 
 
