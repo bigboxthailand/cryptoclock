@@ -202,7 +202,7 @@
             max-width: 91%;
             /* ปรับให้ภาพมีขนาดเหมาะสม */
             height: auto;
-            display: none;
+            display: block;
             /* เปลี่ยนเป็น block เพื่อดูตัวอย่าง */
         }
 
@@ -235,7 +235,7 @@
                 max-width: 70%;
                 /* ปรับให้ภาพมีขนาดเหมาะสม */
                 height: auto;
-                display: none;
+                display: block;
                 /* เปลี่ยนเป็น block เพื่อดูตัวอย่าง */
             }
         }
@@ -476,8 +476,6 @@
                 document.getElementById("preview2").src = "firmware.png";
                 document.getElementById("summarypreview2").src = "firmware.png";
             } else {
-                //preview2.style.display = "none"; // ซ่อนภาพ
-                // summarypreview2.style.display = "none";
                 document.getElementById("preview2").src = "nofirmware.png";
                 document.getElementById("summarypreview2").src = "nofirmware.png";
             }
