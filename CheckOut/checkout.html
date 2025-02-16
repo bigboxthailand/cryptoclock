@@ -310,12 +310,12 @@
             <div class="step" id="step1">
                 <h3>Step 1: เลือกสีของตัวเครื่อง</h3>
                 <select id="color">
-                    <option value="white" data-price="0">ขาว(890 บาท)</option>
-                    <option value="black" data-price="0" selected>ดำ(890 บาท)</option>
-                    <option value="clear" data-price="0">ใส(890 บาท)</option>
-                    <option value="green" data-price="0">เขียว(890 บาท)</option>
-                    <option value="silver" data-price="50">เงิน(940 บาท)</option>
-                    <option value="gold" data-price="80">ทอง(970 บาท)</option>
+                    <option value="white" data-price="0">ขาว(980 บาท)</option>
+                    <option value="black" data-price="0" selected>ดำ(980 บาท)</option>
+                    <option value="clear" data-price="0">ใส(980 บาท)</option>
+                    <option value="green" data-price="0">เขียว(980 บาท)</option>
+                    <option value="silver" data-price="50">เงิน(1,030 บาท)</option>
+                    <option value="gold" data-price="80">ทอง(1,060 บาท)</option>
                 </select>
             </div>
             <div class="step" id="step2">
@@ -498,7 +498,7 @@
             else if (quantity === 1000) discountRate = 0.35;
 
 
-            const basebeforePrice = (890 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice);
+            const basebeforePrice = (980 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice);
             const basePrice = basebeforePrice * (1 - discountRate)
             const totalPrice = basePrice * quantity;
             const discountPrice = basebeforePrice * quantity - totalPrice;
@@ -568,7 +568,7 @@
             else if (totalQuantity === 1000) { discountRate = 0.3; shippingPrice = 900; }
 
             // ราคาก่อนส่วนลด (ต่อตัว)
-            const basebeforePrice = 890 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice;
+            const basebeforePrice = 980 + colorPrice + screenPrice + strapPrice + firmwarePrice + cardPrice;
             // ราคาหลังส่วนลด (ต่อตัว)
             const basePrice = basebeforePrice * (1 - discountRate);
             // ราคารวมหลังส่วนลด
